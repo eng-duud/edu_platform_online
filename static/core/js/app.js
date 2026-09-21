@@ -37,6 +37,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (sidebar && sidebar.classList.contains('show')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+  }
+
   if (sidebarClose) {
     sidebarClose.addEventListener('click', closeSidebar);
   }
@@ -44,6 +56,17 @@ document.addEventListener('DOMContentLoaded', function () {
   if (sidebarOverlay) {
     sidebarOverlay.addEventListener('click', closeSidebar);
   }
+
+  // Close sidebar when clicking any nav link on mobile/tablet
+  const sidebarLinks = document.querySelectorAll('.app-sidebar .sidebar-nav-link');
+  sidebarLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      if (window.innerWidth <= 992) {
+        closeSidebar();
+      }
+    });
+  });
+
 
   // Close sidebar on ESC key
   document.addEventListener('keydown', function (e) {

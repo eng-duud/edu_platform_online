@@ -182,8 +182,17 @@
       <header class="app-navbar">
         
         <div class="navbar-start">
-         
-          
+          <button type="button" class="sidebar-toggle-btn" id="sidebarToggle" aria-label="فتح القائمة الجانبية">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <a href="/" class="mobile-navbar-brand">
+            <div class="mobile-brand-icon">
+              <i class="bi bi-mortarboard-fill"></i>
+            </div>
+            <span class="mobile-brand-title">منصة الجامعة</span>
+          </a>
+
           <nav class="page-breadcrumb" aria-label="مسار التصفح">
             <a href="/" class="text-muted"><i class="bi bi-house"></i></a>
             {% block breadcrumb %}
@@ -284,6 +293,73 @@
     </div>
 
   </div>
+
+  <!-- ==================== MOBILE BOTTOM NAVIGATION BAR ==================== -->
+  <nav class="app-mobile-nav" id="appMobileNav" aria-label="شريط التنقل السريع للجوال">
+    {% if user.is_authenticated %}
+      {% if user.doctor_profile or user_role == 'doctor' %}
+        <a href="{% url 'doctor_dashboard' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'doctor_dashboard' %}active{% endif %}">
+          <i class="bi bi-grid-1x2"></i>
+          <span>الرئيسية</span>
+        </a>
+        <a href="{% url 'doctor_courses' %}" class="mobile-nav-link {% if 'courses' in request.path and not 'enrollment' in request.path %}active{% endif %}">
+          <i class="bi bi-journal-bookmark"></i>
+          <span>موادي</span>
+        </a>
+        <a href="{% url 'doctor_enrollment_requests' %}" class="mobile-nav-link {% if 'enrollment' in request.path %}active{% endif %}">
+          <div class="mobile-nav-icon-wrapper">
+            <i class="bi bi-person-check"></i>
+            {% if pending_requests_count %}
+              <span class="mobile-nav-badge">{{ pending_requests_count }}</span>
+            {% endif %}
+          </div>
+          <span>الطلبات</span>
+        </a>
+        <a href="{% url 'doctor_profile' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'doctor_profile' %}active{% endif %}">
+          <i class="bi bi-person-badge"></i>
+          <span>حسابي</span>
+        </a>
+        <button type="button" class="mobile-nav-link mobile-nav-btn" id="mobileMenuBtn" aria-label="فتح القائمة الكاملة">
+          <i class="bi bi-list"></i>
+          <span>المزيد</span>
+        </button>
+      {% else %}
+        <a href="{% url 'student_dashboard' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
+          <i class="bi bi-grid-1x2"></i>
+          <span>الرئيسية</span>
+        </a>
+        <a href="{% url 'student_courses' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'student_courses' %}active{% endif %}">
+          <i class="bi bi-compass"></i>
+          <span>المقررات</span>
+        </a>
+        <a href="{% url 'student_my_courses' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'student_my_courses' %}active{% endif %}">
+          <i class="bi bi-journal-check"></i>
+          <span>مقرراتي</span>
+        </a>
+        <a href="{% url 'student_profile' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'student_profile' %}active{% endif %}">
+          <i class="bi bi-person-circle"></i>
+          <span>حسابي</span>
+        </a>
+        <button type="button" class="mobile-nav-link mobile-nav-btn" id="mobileMenuBtn" aria-label="فتح القائمة الكاملة">
+          <i class="bi bi-list"></i>
+          <span>المزيد</span>
+        </button>
+      {% endif %}
+    {% else %}
+      <a href="/" class="mobile-nav-link {% if request.path == '/' %}active{% endif %}">
+        <i class="bi bi-house"></i>
+        <span>الرئيسية</span>
+      </a>
+      <a href="{% url 'login' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+        <i class="bi bi-box-arrow-in-left"></i>
+        <span>دخول</span>
+      </a>
+      <a href="{% url 'register' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+        <i class="bi bi-person-plus"></i>
+        <span>تسجيل</span>
+      </a>
+    {% endif %}
+  </nav>
 
   <!-- Core JavaScript -->
   <script src="{% static 'core/js/app.js' %}"></script>
