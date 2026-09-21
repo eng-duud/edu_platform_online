@@ -9,7 +9,12 @@ __pycache__/
 env/
 venv/
 my_env/
+test/
 ENV/
+
+# Static files collected
+staticfiles/
+
 
 # Database
 *.sqlite3
@@ -30,3 +35,9 @@ media/lectures/videos/*
 *.swo
 .DS_Store
 Thumbs.db
+
+# Local test helper scripts
+test_db.py
+test_s3.py
+clean_project.py
+
